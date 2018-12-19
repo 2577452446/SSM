@@ -18,6 +18,7 @@
 		<property name="location" value="classpath:database.properties"/>
 	</bean>
 	
+	
 	<!-- 配置数据源,以dbcp数据源作为连接池 -->
 	<!-- data : 数据   	source ：源头，来源，源，资源		dataSource : 数据源 -->
 	<!-- 整合别人的优秀资源，直接拿过来用，不重复造轮子 -->
