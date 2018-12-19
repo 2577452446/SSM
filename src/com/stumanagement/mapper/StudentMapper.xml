@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stumanagement.dao.StudentDao">
+	<resultMap id="BaseResultMap" type="Student">
+		<id column="id" property="id"/>
+		<result column="sname" property="sname"/>
+		<result column="birthday" property="birthday"/>
+		<result column="gender" property="gender"/>
+		<result column="telephone" property="telephone"/>
+		<result column="email" property="email"/>
+	</resultMap>
+	
+	<resultMap id="FullResultMap" type="Student" extends="BaseResultMap">
+		<association property="classid" resultMap="com.stumanagement.dao.ClassesDao.BaseResultMap"/>
+	</resultMap>
+	
+	<select id="getAll" resultMap="FullResultMap">
+		SELECT * FROM student AS s,classes AS c
+		WHERE s.classid=c.id
+		ORDER BY s.id
+		LIMIT #{page.firstResult}, #{page.pageSize}
+	</select>
+	
+	<select id="getCount" resultType="Integer">
+		SELECT COUNT(*) FROM  student
+	</select>
+	
+	<select id="beforeUpdate" resultMap="FullResultMap">
+		SELECT * FROM student AS s,classes AS c
+		WHERE s.classid=c.id AND s.id=#{id}
+	</select>
+	
+	<update id="Update">
+		UPDATE student 
+		SET sname=#{stu.sname},
+		birthday = #{stu.birthday},
+		gender= #{stu.gender},
+		telephone=#{stu.telephone},
+		email=#{stu.email},
+		classid=#{stu.classid.id}
+		WHERE id = #{stu.id}
+	</update>
+</mapper>
